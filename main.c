@@ -16,7 +16,6 @@ static block_header* ENTRY_POINTER = NULL;
 
 void* mozalloc(size_t size)
 {
-
 }
 
 void mozafree(void* target)
@@ -62,6 +61,11 @@ block_header* cut_block(block_header *target, int size)
         return new_block;
     }
     return NULL;
+}
+
+void print_all_block()
+{
+
 }
 
 int main()
