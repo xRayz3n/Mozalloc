@@ -131,11 +131,11 @@ void* mozalloc(size_t size)
         block_header* new_block = (block_header*) create_block(size);
         if(size <= MIN_BLOCK_LENGTH)
         {
-            return header_to_data(new_block);
+            return header_to_data(cut_block(new_block,size));
         }
         else
         {
-            return header_to_data(cut_block(new_block,size));
+            return header_to_data(new_block);
         }
     }
     else
@@ -154,12 +154,9 @@ void mozafree(void* ptr)
 
 int main()
 {
-    block_header* block1 = create_block(2048);
-    block_header* block2 = create_block(4096);
-    block_header* block3 = create_block(1024);
-    block_header* block4 = cut_block(block3, 60);
+    char* ptr = mozalloc(50);
     print_all_block();
-
+    mozafree(ptr);
     // printf("\nmodification finished\n\n");
     // block_header* block3 = cut_block(block1,2);
     // print_all_block();
