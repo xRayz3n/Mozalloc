@@ -152,8 +152,7 @@ void* mozalloc(size_t size)
 
 void mozafree(void* ptr)
 {
-    char* target = (char*)ptr - HEADER_LENGTH;
-    block_header* new_block = (block_header*)target;
+    block_header* new_block = data_to_header(ptr);
     new_block->flag = FREE;
 }
 
@@ -163,6 +162,7 @@ int main()
     char* ptr = mozalloc(50);
     print_all_block();
     mozafree(ptr);
+    print_all_block();
     // printf("\nmodification finished\n\n");
     // block_header* block3 = cut_block(block1,2);
     // print_all_block();
