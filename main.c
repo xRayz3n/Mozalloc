@@ -17,6 +17,18 @@ static block_header* ENTRY_POINTER = NULL;
 
 void* mozalloc(size_t size)
 {
+    block_header* founded = search_free_block(size);
+    if (founded == NULL){
+        block_header* new_block = create_block(size);
+        if(size <= MIN_BLOCK_LENGTH)
+        {
+            return cut_block(new_block, size);
+        }
+    }
+    else
+    {
+        return cut_block(founded, size);
+    }
 }
 
 void mozafree(void* target)
@@ -70,7 +82,7 @@ block_header* cut_block(block_header* target, size_t size)
 
         target->length = size;
         target->next = new_block;
-        return new_block;
+        return target;
     }
     return NULL;
 }
