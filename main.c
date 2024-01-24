@@ -118,7 +118,7 @@ void print_all_block()
             printf("Length : %zu\n", current->length);
             printf("Place in memory : %p\n", current);
             printf("Place of next : %p\n", current->next);            
-            printf("__________________________________\n");
+            printf("___________________________________\n");
             if(current->next == NULL){break;}
             current = current->next;
             counter++;
