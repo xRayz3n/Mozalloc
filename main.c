@@ -63,8 +63,38 @@ block_header* cut_block(block_header *target, int size)
     return NULL;
 }
 
+block_header* search_free_block(int size)
+{
+    if (ENTRY_POINTER == NULL) return NULL;
+
+    block_header* current = ENTRY_POINTER;
+    while(1)
+    {
+        if(current->flag == FREE && current->length >= size) return current;
+
+        if(current->next != NULL) {current = current->next;}
+        else { return NULL; }
+    }
+}
+
 void print_all_block()
 {
+    if (ENTRY_POINTER != NULL) 
+    {
+        block_header* current = ENTRY_POINTER;
+        int counter = 0;
+        while(1)
+        {
+            printf("_____Block n°%i_____ :\n", counter);
+            printf("Flag : %i\n", (int) current->flag);
+            printf("Length : %zu\n", current->length);
+            printf("Place in memory : %p\n", current);
+            printf("Place of next : %p\n", current->next);            
+            if(current->next == NULL){break;}
+            current = current->next;
+            counter++;
+        }
+    }
 
 }
 
@@ -77,6 +107,7 @@ block_header* block = create_block(2048);  // Allocate a block of size 2048 byte
         printf("Length: %zu\n", block->length);
         printf("Flag: %s\n", (block->flag == FREE) ? "FREE" : "OCCUPIED");
         printf("Next: %p\n", (void*)block->next);
+        print_all_block();
     } else {
         printf("Failed to create block\n");
     }
