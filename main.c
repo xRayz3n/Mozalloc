@@ -17,13 +17,28 @@ static block_header* ENTRY_POINTER = NULL;
 
 void* mozalloc(size_t size)
 {
-    
+
 }
 
-void mozafree(block_header* target)
+void mozafree(void* ptr)
 {
+    char* target = (char*)ptr - HEADER_LENGTH;
+    block_header* new_block = (block_header*)new_block_address;
     target->flag = FREE;
 }
+
+block_header* data_to_header(void* ptr) {
+    char* target = (char*)ptr - HEADER_LENGTH;
+    block_header* new_block = (block_header*)target;
+    return new_block;
+}
+
+
+void* ptr header_to_data(block_header* target) {
+    char* data_address = (char*)target + HEADER_LENGTH;
+    return (void*)data_address;
+}
+
 
 void insert_block(block_header* target)
 {
@@ -91,7 +106,7 @@ block_header* search_free_block(int size)
 }
 
 void print_all_block()
-{
+{ 
     if (ENTRY_POINTER != NULL) 
     {
         block_header* current = ENTRY_POINTER;
