@@ -127,20 +127,26 @@ void print_all_block()
 void* mozalloc(size_t size)
 {
     block_header* founded = search_free_block(size);
-    if (founded == NULL){
+    if (founded == NULL)
+    {
         block_header* new_block = (block_header*) create_block(size);
         if(size <= MIN_BLOCK_LENGTH)
         {
-            return header_to_data(cut_block(new_block,size));
+            block_header* to_return = cut_block(new_block,size);
+            to_return->flag = OCCUPIED;
+            return header_to_data(to_return);
         }
         else
         {
+            new_block->flag = OCCUPIED;
             return header_to_data(new_block);
         }
     }
     else
     {
-        return header_to_data(founded);
+        block_header* to_return = cut_block(founded,size);
+        to_return->flag = OCCUPIED;
+        return header_to_data(to_return);
     }
 }
 
