@@ -2,7 +2,7 @@
 
 #define MIN_BLOCK_LENGTH 1024
 
-struct block_header
+typedef struct block_header
 {
     int length;
     enum flag { occupied = 1, free = 0 };
@@ -20,9 +20,9 @@ void mozafree(void* target)
 
 }
 
-int create_block()
+block_header create_block() // function I need to write
 {
-
+    
 }
 
 int insert_block()
