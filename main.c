@@ -12,7 +12,6 @@ typedef struct block_header
 
 void* mozalloc(size_t size)
 {
-
 }
 
 void mozafree(void* target)
@@ -43,11 +42,11 @@ int insert_block()
 
 block_header* cut_block(block_header *target, int size)
 {
-    if (target->flag == free && target->length > size + HEADER_LENGTH)
+    if (target->flag == FREE && target->length > size + HEADER_LENGTH)
     {
         block_header *new_block = target + HEADER_LENGTH +size;
         new_block->next = target->next;
-        new_block->flag = free;
+        new_block->flag = FREE;
         new_block->length = target->length - size - HEADER_LENGTH;
 
         target->length = size;
@@ -56,6 +55,11 @@ block_header* cut_block(block_header *target, int size)
         return new_block;
     }
     return NULL;
+}
+
+void print_all_block()
+{
+
 }
 
 int main()
