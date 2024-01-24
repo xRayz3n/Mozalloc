@@ -17,11 +17,12 @@ static block_header* ENTRY_POINTER = NULL;
 
 void* mozalloc(size_t size)
 {
+    
 }
 
-void mozafree(void* target)
+void mozafree(block_header* target)
 {
-
+    target->flag = FREE;
 }
 
 void insert_block(block_header* target)
@@ -119,10 +120,8 @@ int main()
 {
     block_header* block1 = create_block(2048);
     block_header* block2 = create_block(4096);
-
-    printf("creation finished\n");
-    block_header* block2 = create_block(1024);
-    cut_block(block1, 60);
+    block_header* block3 = create_block(1024);
+    block_header* block4 = cut_block(block3, 60);
     print_all_block();
 
     // printf("\nmodification finished\n\n");
