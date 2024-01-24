@@ -18,7 +18,7 @@ This C library provides custom memory allocation functions, similar to `malloc` 
   3. `insert_block(block_header* target)`: Inserts a block into the linked list.
   4. `create_block(size_t size)`: Creates a new memory block.
   5. `cut_block(block_header* target, size_t size)`: Splits a block into two if it's large enough.
-  6. `search_free_block(size_t size)`: Searches for a free block of sufficient size.
+  6. `search_free_block(size_t size)`: Searches for a free block of sufficient size.    
   7. `print_all_block()`: Prints details of all blocks for debugging.
   8. `mozalloc(size_t size)`: Custom allocation function.
   9. `mozafree(void* ptr)`: Custom deallocation function.
