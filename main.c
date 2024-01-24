@@ -127,20 +127,26 @@ void print_all_block()
 void* mozalloc(size_t size)
 {
     block_header* founded = search_free_block(size);
-    if (founded == NULL){
+    if (founded == NULL)
+    {
         block_header* new_block = (block_header*) create_block(size);
         if(size <= MIN_BLOCK_LENGTH)
         {
-            return header_to_data(new_block);
+            block_header* to_return = cut_block(new_block,size);
+            to_return->flag = OCCUPIED;
+            return header_to_data(to_return);
         }
         else
         {
-            return header_to_data(cut_block(new_block,size));
+            new_block->flag = OCCUPIED;
+            return header_to_data(new_block);
         }
     }
     else
     {
-        return header_to_data(founded);
+        block_header* to_return = cut_block(founded,size);
+        to_return->flag = OCCUPIED;
+        return header_to_data(to_return);
     }
 }
 
@@ -154,12 +160,11 @@ void mozafree(void* ptr)
 
 int main()
 {
-    block_header* block1 = create_block(2048);
-    block_header* block2 = create_block(4096);
-    block_header* block3 = create_block(1024);
-    block_header* block4 = cut_block(block3, 60);
+    int* test = mozalloc(50);
+    char* test2 = mozalloc(500);
+    char* test4 = mozalloc(2000);
+    char* test3 = mozalloc(10);
     print_all_block();
-
     // printf("\nmodification finished\n\n");
     // block_header* block3 = cut_block(block1,2);
     // print_all_block();
