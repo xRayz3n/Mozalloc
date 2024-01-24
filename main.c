@@ -41,9 +41,21 @@ int insert_block()
 
 }
 
-void cut_block(block_header target, int size)
+block_header* cut_block(block_header *target, int size)
 {
+    if (target->flag == free && target->length > size + HEADER_LENGTH)
+    {
+        block_header *new_block = target + HEADER_LENGTH +size;
+        new_block->next = target->next;
+        new_block->flag = free;
+        new_block->length = target->length - size - HEADER_LENGTH;
 
+        target->length = size;
+        target->next = new_block;
+
+        return new_block;
+    }
+    return NULL;
 }
 
 int main()
