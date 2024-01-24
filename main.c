@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <stddef.h>
 #define MIN_BLOCK_LENGTH 1024
 #define HEADER_LENGTH sizeof(block_header)
 
@@ -23,7 +24,18 @@ void mozafree(void* target)
 
 }
 
-block_header* create_block(size_t size) // function I need to write
+void insert_block(block_header* target)
+{
+    block_header* current;
+    while (1) { // get the last block
+            current = current->next;
+        if (current->next == NULL) break;
+    }
+    current->next = target;
+}
+
+
+block_header* create_block(size_t size)
 {
     block_header* extension;
     if (size < MIN_BLOCK_LENGTH) size = MIN_BLOCK_LENGTH;
@@ -33,18 +45,16 @@ block_header* create_block(size_t size) // function I need to write
 
     extension->length = size;
     extension->flag = FREE;
-    extension->next = extension;
+    extension->next = NULL;
 
-    if (ENTRY_POINTER == NULL) ENTRY_POINTER = extension;
+    if (ENTRY_POINTER == NULL) {
+        ENTRY_POINTER = extension;
+    } else insert_block(extension);
 
     return extension;
 
 }
 
-int insert_block()
-{
-
-}
 
 block_header* cut_block(block_header *target, int size)
 {
@@ -70,13 +80,15 @@ void print_all_block()
 
 int main()
 {
-block_header* block = create_block(2048);  // Allocate a block of size 2048 bytes
+    block_header* block1 = create_block(2048);
+    block_header* block2 = create_block(4096);
 
-    if (block != NULL) {
+
+    if (block1 != NULL) {
         printf("Block created successfully:\n");
-        printf("Length: %zu\n", block->length);
-        printf("Flag: %s\n", (block->flag == FREE) ? "FREE" : "OCCUPIED");
-        printf("Next: %p\n", (void*)block->next);
+        printf("Length: %zu\n", block1->length);
+        printf("Flag: %s\n", (block1->flag == FREE) ? "FREE" : "OCCUPIED");
+        printf("Next: %p\n", (void*)block1->next);
     } else {
         printf("Failed to create block\n");
     }
