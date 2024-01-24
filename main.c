@@ -26,10 +26,11 @@ void mozafree(void* target)
 
 void insert_block(block_header* target)
 {
-    block_header* current;
+    block_header* current = ENTRY_POINTER;
     while (1) { // get the last block
-            current = current->next;
-        if (current->next == NULL) break;
+        if (current->next == NULL) 
+            break;
+        current = current->next;
     }
     current->next = target;
 }
@@ -56,18 +57,19 @@ block_header* create_block(size_t size)
 }
 
 
-block_header* cut_block(block_header *target, int size)
+block_header* cut_block(block_header* target, size_t size)
 {
     if (target->flag == FREE && target->length > size + HEADER_LENGTH)
     {
-        block_header *new_block = target + HEADER_LENGTH +size;
+        char* new_block_address = (char*)target + HEADER_LENGTH + size;
+        block_header* new_block = (block_header*)new_block_address;
+
         new_block->next = target->next;
         new_block->flag = FREE;
         new_block->length = target->length - size - HEADER_LENGTH;
 
         target->length = size;
         target->next = new_block;
-
         return new_block;
     }
     return NULL;
@@ -100,7 +102,7 @@ void print_all_block()
             printf("Length : %zu\n", current->length);
             printf("Place in memory : %p\n", current);
             printf("Place of next : %p\n", current->next);            
-            printf("__________________________________\n");
+            printf("___________________________________\n");
             if(current->next == NULL){break;}
             current = current->next;
             counter++;
@@ -117,8 +119,15 @@ int main()
 {
     block_header* block1 = create_block(2048);
     block_header* block2 = create_block(4096);
-    
+
+    printf("creation finished\n");
+    block_header* block3 = create_block(1024);
+    cut_block(block2, 60);
     print_all_block();
+
+    // printf("\nmodification finished\n\n");
+    // block_header* block3 = cut_block(block1,2);
+    // print_all_block();
 
     return 0;
 }
