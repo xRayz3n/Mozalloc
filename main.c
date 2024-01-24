@@ -133,6 +133,10 @@ void* mozalloc(size_t size)
         {
             return header_to_data(new_block);
         }
+        else
+        {
+            return header_to_data(cut_block(new_block,size));
+        }
     }
     else
     {
