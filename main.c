@@ -1,12 +1,12 @@
 #include <unistd.h>
+#include <stdio.h>
 
 #define MIN_BLOCK_LENGTH 1024
 
-struct block_header
+typedef struct block_header
 {
     int length;
-    enum flag { occupied = 1, free = 0 };
-    struct block_header *previous ;
+    enum { occupied = 1, free = 0 } flag;
     struct block_header *next ;
 } block_header;
 
@@ -30,12 +30,12 @@ int insert_block()
 
 }
 
-void cut_block(struct block_header target, int size)
+void cut_block(block_header target, int size)
 {
 
 }
 
 int main()
 {
-
+    printf("%i\n", (int)sizeof(block_header));
 }
