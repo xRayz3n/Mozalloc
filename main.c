@@ -159,7 +159,7 @@ void mozafree(void* ptr)
 
 int main()
 {
-    char* ptr = mozalloc(50);
+    char* ptr = mozalloc(1050);
     print_all_block();
     mozafree(ptr);
     print_all_block();
