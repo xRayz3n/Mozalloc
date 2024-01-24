@@ -95,15 +95,20 @@ void print_all_block()
         int counter = 0;
         while(1)
         {
-            printf("_____Block n°%i_____ :\n", counter);
-            printf("Flag : %i\n", (int) current->flag);
+            printf("______________Block n°%i____________\n", counter);
+            printf("Flag : %s\n", (current->flag == FREE) ? "FREE" : "OCCUPIED");
             printf("Length : %zu\n", current->length);
             printf("Place in memory : %p\n", current);
             printf("Place of next : %p\n", current->next);            
+            printf("__________________________________\n");
             if(current->next == NULL){break;}
             current = current->next;
             counter++;
         }
+    }
+    else 
+    {
+        printf("No block to show\n");
     }
 
 }
@@ -112,17 +117,8 @@ int main()
 {
     block_header* block1 = create_block(2048);
     block_header* block2 = create_block(4096);
-
-
-    if (block1 != NULL) {
-        printf("Block created successfully:\n");
-        printf("Length: %zu\n", block1->length);
-        printf("Flag: %s\n", (block1->flag == FREE) ? "FREE" : "OCCUPIED");
-        printf("Next: %p\n", (void*)block1->next);
-        print_all_block();
-    } else {
-        printf("Failed to create block\n");
-    }
+    
+    print_all_block();
 
     return 0;
 }
