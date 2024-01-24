@@ -26,10 +26,11 @@ void mozafree(void* target)
 
 void insert_block(block_header* target)
 {
-    block_header* current;
+    block_header* current = ENTRY_POINTER;
     while (1) { // get the last block
-            current = current->next;
-        if (current->next == NULL) break;
+        if (current->next == NULL) 
+            break;
+        current = current->next;
     }
     current->next = target;
 }
@@ -69,7 +70,6 @@ block_header* cut_block(block_header* target, size_t size)
 
         target->length = size;
         target->next = new_block;
-
         return new_block;
     }
     return NULL;
@@ -118,9 +118,16 @@ void print_all_block()
 int main()
 {
     block_header* block1 = create_block(2048);
+    block_header* block2 = create_block(4096);
+
+    printf("creation finished\n");
     block_header* block2 = create_block(1024);
     cut_block(block1, 60);
     print_all_block();
+
+    // printf("\nmodification finished\n\n");
+    // block_header* block3 = cut_block(block1,2);
+    // print_all_block();
 
     return 0;
 }
