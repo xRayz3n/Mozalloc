@@ -62,7 +62,7 @@ block_header* cut_block(block_header* target, size_t size)
     {
         char* new_block_address = (char*)target + HEADER_LENGTH + size;
         block_header* new_block = (block_header*)new_block_address;
-        
+
         new_block->next = target->next;
         new_block->flag = FREE;
         new_block->length = target->length - size - HEADER_LENGTH;
@@ -119,7 +119,7 @@ int main()
 {
     block_header* block1 = create_block(2048);
     block_header* block2 = create_block(1024);
-    cut_block(block2, 60);
+    cut_block(block1, 60);
     print_all_block();
 
     return 0;
