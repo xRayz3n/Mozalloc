@@ -16,7 +16,7 @@ This C library provides custom memory allocation functions, similar to `malloc` 
   1. `data_to_header(void* ptr)`: Converts a data pointer to its corresponding block header.
   2. `header_to_data(block_header* target)`: Converts a block header pointer to its corresponding data pointer.
   3. `insert_block(block_header* target)`: Inserts a block into the linked list.
-  4. `create_block(size_t size)`: Creates a new memory block.
+  4. `create_block(size_t size)`: Creates a new memory block using `sbrk(2)`.
   5. `cut_block(block_header* target, size_t size)`: Splits a block into two if it's large enough.
   6. `search_free_block(size_t size)`: Searches for a free block of sufficient size.    
   7. `print_all_block()`: Prints details of all blocks for debugging.
@@ -48,8 +48,6 @@ This C library provides custom memory allocation functions, similar to `malloc` 
 ## Example
 
 ```c
-#include "your_custom_memory_lib.h"
-
 int main() {
     // Allocate memory
     void* my_block = mozalloc(100);
