@@ -15,25 +15,16 @@ typedef struct block_header
 
 static block_header* ENTRY_POINTER = NULL;
 
-void* mozalloc(size_t size)
-{
-    block_header* founded = search_free_block(size);
-    if (founded == NULL){
-        block_header* new_block = create_block(size);
-        if(size <= MIN_BLOCK_LENGTH)
-        {
-            return cut_block(new_block, size);
-        }
-    }
-    else
-    {
-        return cut_block(founded, size);
-    }
+block_header* data_to_header(void* ptr) {
+    char* target = (char*)ptr - HEADER_LENGTH;
+    block_header* new_block = (block_header*)target;
+    return new_block;
 }
 
-void mozafree(void* target)
-{
 
+void* header_to_data(block_header* target) {
+    char* data_address = (char*)target + HEADER_LENGTH;
+    return (void*)data_address;
 }
 
 void insert_block(block_header* target)
@@ -87,7 +78,7 @@ block_header* cut_block(block_header* target, size_t size)
     return NULL;
 }
 
-block_header* search_free_block(int size)
+block_header* search_free_block(size_t size)
 {
     if (ENTRY_POINTER == NULL) return NULL;
 
@@ -96,13 +87,19 @@ block_header* search_free_block(int size)
     {
         if(current->flag == FREE && current->length >= size) return current;
 
-        if(current->next != NULL) {current = current->next;}
-        else { return NULL; }
+        if(current->next != NULL) 
+        {
+            current = current->next;
+        }
+        else 
+        { 
+            return NULL; 
+        }
     }
 }
 
 void print_all_block()
-{
+{ 
     if (ENTRY_POINTER != NULL) 
     {
         block_header* current = ENTRY_POINTER;
@@ -127,14 +124,36 @@ void print_all_block()
 
 }
 
+void* mozalloc(size_t size)
+{
+    block_header* founded = search_free_block(size);
+    if (founded == NULL){
+        block_header* new_block = (block_header*) create_block(size);
+        if(size <= MIN_BLOCK_LENGTH)
+        {
+            return header_to_data(new_block);
+        }
+    }
+    else
+    {
+        return header_to_data(founded);
+    }
+}
+
+void mozafree(void* ptr)
+{
+    char* target = (char*)ptr - HEADER_LENGTH;
+    block_header* new_block = (block_header*)target;
+    new_block->flag = FREE;
+}
+
+
 int main()
 {
     block_header* block1 = create_block(2048);
     block_header* block2 = create_block(4096);
-
-    printf("creation finished\n");
     block_header* block3 = create_block(1024);
-    cut_block(block2, 60);
+    block_header* block4 = cut_block(block3, 60);
     print_all_block();
 
     // printf("\nmodification finished\n\n");
