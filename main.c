@@ -63,7 +63,7 @@ block_header* cut_block(block_header* target, size_t size)
     {
         char* new_block_address = (char*)target + HEADER_LENGTH + size;
         block_header* new_block = (block_header*)new_block_address;
-        
+
         new_block->next = target->next;
         new_block->flag = FREE;
         new_block->length = target->length - size - HEADER_LENGTH;
