@@ -23,8 +23,8 @@ void* mozalloc(size_t size)
 void mozafree(void* ptr)
 {
     char* target = (char*)ptr - HEADER_LENGTH;
-    block_header* new_block = (block_header*)new_block_address;
-    target->flag = FREE;
+    block_header* new_block = (block_header*)target;
+    new_block->flag = FREE;
 }
 
 block_header* data_to_header(void* ptr) {
@@ -34,7 +34,7 @@ block_header* data_to_header(void* ptr) {
 }
 
 
-void* ptr header_to_data(block_header* target) {
+void* header_to_data(block_header* target) {
     char* data_address = (char*)target + HEADER_LENGTH;
     return (void*)data_address;
 }
