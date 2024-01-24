@@ -3,12 +3,16 @@
 #define MIN_BLOCK_LENGTH 1024
 #define HEADER_LENGTH sizeof(block_header)
 
+
+
 typedef struct block_header
 {
     size_t length;
     enum flag { OCCUPIED = 1, FREE = 0 } flag;
     struct block_header* next ;
 } block_header;
+
+static block_header* ENTRY_POINTER = NULL;
 
 void* mozalloc(size_t size)
 {
@@ -32,6 +36,8 @@ block_header* create_block(size_t size) // function I need to write
     extension->flag = FREE;
     extension->next = extension;
 
+    if (ENTRY_POINTER == NULL) ENTRY_POINTER = extension;
+
     return extension;
 
 }
@@ -43,11 +49,11 @@ int insert_block()
 
 block_header* cut_block(block_header *target, int size)
 {
-    if (target->flag == free && target->length > size + HEADER_LENGTH)
+    if (target->flag == FREE && target->length > size + HEADER_LENGTH)
     {
         block_header *new_block = target + HEADER_LENGTH +size;
         new_block->next = target->next;
-        new_block->flag = free;
+        new_block->flag = FREE;
         new_block->length = target->length - size - HEADER_LENGTH;
 
         target->length = size;
