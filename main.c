@@ -102,7 +102,7 @@ void print_all_block()
             printf("Length : %zu\n", current->length);
             printf("Place in memory : %p\n", current);
             printf("Place of next : %p\n", current->next);            
-            printf("__________________________________\n");
+            printf("___________________________________\n");
             if(current->next == NULL){break;}
             current = current->next;
             counter++;
@@ -121,7 +121,7 @@ int main()
     block_header* block2 = create_block(4096);
 
     printf("creation finished\n");
-    block_header* block2 = create_block(1024);
+    block_header* block3 = create_block(1024);
     cut_block(block2, 60);
     print_all_block();
 
