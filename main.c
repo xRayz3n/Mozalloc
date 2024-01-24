@@ -41,7 +41,7 @@ int insert_block()
 
 }
 
-void cut_block(struct block_header target, int size)
+void cut_block(block_header target, int size)
 {
 
 }
