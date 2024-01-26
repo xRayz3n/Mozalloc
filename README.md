@@ -61,6 +61,16 @@ int main() {
 }
 ```
 
+ ## How to implement with LD_PRELOAD
+ You first need to create `mozalloc.so` file from the `main.c` using the following command in the CLI at the `main.c` folder location:
+ ```bash
+gcc -fPIC -shared -o mozalloc.so main.c
+```
+You can then run your target file using the LD_PRELOAD command:
+```bash
+LD_PRELOAD=./mozalloc.so ./myTestingProgram
+```
+
 Ensure to include necessary headers and this custom library in your C program for memory allocation and deallocation using `mozalloc` and `mozafree`.
 
 ---

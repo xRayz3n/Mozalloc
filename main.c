@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stddef.h>
+
 #define MIN_BLOCK_LENGTH 1024
 #define HEADER_LENGTH sizeof(block_header)
 
@@ -126,6 +127,7 @@ void print_all_block()
 
 void* mozalloc(size_t size)
 {
+    printf("Mozalloc called");
     block_header* founded = search_free_block(size);
     if (founded == NULL)
     {
@@ -154,6 +156,7 @@ void mozafree(void* ptr)
 {
     block_header* new_block = data_to_header(ptr);
     new_block->flag = FREE;
+
 }
 
 
@@ -163,9 +166,5 @@ int main()
     print_all_block();
     mozafree(ptr);
     print_all_block();
-    // printf("\nmodification finished\n\n");
-    // block_header* block3 = cut_block(block1,2);
-    // print_all_block();
-
     return 0;
 }
