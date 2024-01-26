@@ -1,5 +1,5 @@
-
-# README.md for Custom Memory Allocation Library
+# Custom Memory Allocation Library
+Project made by Sébastien LAM, Théo LISSARRAGUE, Maëlle ROCHE, Paul RAGUET
 
 ## Overview
 
